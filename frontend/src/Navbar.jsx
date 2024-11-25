@@ -1,6 +1,6 @@
 import { Box, Button, Container, Flex, Text } from "@chakra-ui/react";
 import React from "react";
-import { useColorMode, useColorModeValue } from "./ui/color-mode";
+import { useColorMode, useColorModeValue } from "./components/ui/color-mode";
 import { FaSun } from "react-icons/fa6";
 import { IoMoon } from "react-icons/io5";
 import CreateUser from "./CreateUser";

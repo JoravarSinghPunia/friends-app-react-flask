@@ -1,7 +1,21 @@
 import React from "react";
 import { BiTrash } from "react-icons/bi";
+import { BASE_URL } from "./App";
 
-function UserCard({ user }) {
+function UserCard({ user, setUsers }) {
+  const handleDelete = async () => {
+    try {
+      const res = await fetch(BASE_URL + "/friends/" + user.id, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error);
+      }
+      setUsers((prevUsers) => prevUsers.filter((u) => u.id !== user.id));
+    } catch (error) {}
+  };
+
   return (
     <div
       style={{
@@ -21,7 +35,7 @@ function UserCard({ user }) {
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           {/* Replace Chakra's Avatar component with an img tag */}
           <img
-            src="https://avatar.iran.liara.run/public"
+            src={user.imgUrl}
             alt={user.name}
             style={{ width: "40px", height: "40px", borderRadius: "50%" }}
           />
@@ -32,11 +46,13 @@ function UserCard({ user }) {
             <p style={{ margin: 0, fontSize: "0.875rem", color: "#666" }}>
               {user.role}
             </p>
+            <p style={{ margin: 0, fontSize: "0.875rem", color: "#666" }}>
+              {user.description}
+            </p>
           </div>
         </div>
 
         <div>
-          {/* Replace Chakra's IconButton component with a button */}
           <button
             style={{
               background: "none",
@@ -46,6 +62,7 @@ function UserCard({ user }) {
               padding: 0,
               fontSize: "16px",
             }}
+            onClick={handleDelete}
             aria-label="see menu"
           >
             <BiTrash size={20} />
